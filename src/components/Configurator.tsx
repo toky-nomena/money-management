@@ -25,6 +25,7 @@ function Configurator({
           min={0}
           max={100}
           value={state.winRate}
+          disabled={!state.simulate}
           onChange={(value) => setValue("winRate", value || 0)}
         />
       </Grid.Col>
