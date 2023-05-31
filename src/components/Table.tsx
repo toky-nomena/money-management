@@ -10,6 +10,16 @@ const formatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
+const lotFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 2,
+  minimumFractionDigits: 2,
+});
+
+const compactLotFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 0,
+  minimumFractionDigits: 0,
+});
+
 export default function Table(props: { rows: Row[] }) {
   return (
     <MantineTable>
@@ -20,6 +30,7 @@ export default function Table(props: { rows: Row[] }) {
           <th>Real Profit</th>
           <th>Expected Profit</th>
           <th>Drawdown Max</th>
+          <th>Lot</th>
         </tr>
       </thead>
       <tbody>
@@ -46,6 +57,45 @@ function TableRow({ row }: { row: Row }) {
       <td className={classes}>{formatter.format(row.realProfit)}</td>
       <td>{formatter.format(row.profit)}</td>
       <td>-{formatter.format(row.maxDrawdown)}</td>
+      <td>
+        <LotCell lot={row.lot} />
+      </td>
     </tr>
+  );
+}
+
+function getMaxLot(lot: number): number {
+  if (lot <= 10) {
+    return lot;
+  }
+
+  if (lot < 1000) {
+    return Math.ceil(lot / 10);
+  }
+
+  return 100;
+}
+
+function LotCell({ lot }: { lot: number }) {
+  const maxLot = getMaxLot(lot);
+
+  const quotient = Math.floor(lot / maxLot);
+
+  if (maxLot < 10) {
+    return (
+      <>
+        {lot % 1 != 0
+          ? lotFormatter.format(lot)
+          : compactLotFormatter.format(lot)}
+      </>
+    );
+  }
+
+  const remainder = compactLotFormatter.format(quotient);
+
+  return (
+    <>
+      {maxLot} x {remainder} ({compactLotFormatter.format(lot)})
+    </>
   );
 }

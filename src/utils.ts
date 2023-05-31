@@ -20,16 +20,16 @@ export type Parameters = {
   simulate: boolean;
 };
 
+function generateRandomValue(): number {
+  const array = new Uint32Array(1);
+  window.crypto.getRandomValues(array);
+  return array[0] / (Math.pow(2, 32) - 1);
+}
+
 export function generateRandomNumber(
   probabilities: number[],
   numbers: number[]
 ): number {
-  if (probabilities.length !== numbers.length) {
-    throw new Error(
-      "The length of probabilities and numbers must be the same."
-    );
-  }
-
   const cumulativeProbabilities: number[] = [];
   let cumulativeProbability = 0;
 
@@ -38,7 +38,7 @@ export function generateRandomNumber(
     cumulativeProbabilities.push(cumulativeProbability);
   }
 
-  const randomValue = Math.random();
+  const randomValue = generateRandomValue();
 
   for (let i = 0; i < cumulativeProbabilities.length; i++) {
     if (randomValue <= cumulativeProbabilities[i]) {
@@ -68,7 +68,7 @@ export function generateRows(config: Parameters): Row[] {
       : 1;
 
     const realProfit = sign > 0 ? profit : -maxDrawdown;
-    const lot = equity / 5000.0;
+    const lot = (equity * config.riskRatio) / 100 / 100;
 
     rows.push({
       index,

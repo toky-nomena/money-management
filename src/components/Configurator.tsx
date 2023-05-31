@@ -21,12 +21,10 @@ function Configurator({
     <Grid grow gutter="xs">
       <Grid.Col span={4}>
         <NumberInput
-          label="Win Rate (%)"
-          min={0}
-          max={100}
-          value={state.winRate}
-          disabled={!state.simulate}
-          onChange={(value) => setValue("winRate", value || 0)}
+          min={5}
+          label="Initial Equity (USD)"
+          value={state.initialValue}
+          onChange={(value) => setValue("initialValue", value || 0)}
         />
       </Grid.Col>
       <Grid.Col span={4}>
@@ -48,10 +46,12 @@ function Configurator({
       </Grid.Col>
       <Grid.Col span={4}>
         <NumberInput
-          min={5}
-          label="Initial Equity (USD)"
-          value={state.initialValue}
-          onChange={(value) => setValue("initialValue", value || 0)}
+          label="Win Rate (%)"
+          min={0}
+          max={100}
+          value={state.winRate}
+          disabled={!state.simulate}
+          onChange={(value) => setValue("winRate", value || 0)}
         />
       </Grid.Col>
       <Grid.Col span={8}>
