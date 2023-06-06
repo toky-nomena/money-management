@@ -1,24 +1,6 @@
 import { v4 } from "uuid";
-
-export type Row = {
-  id: string;
-  index: number;
-  equity: number;
-  week: number;
-  profit: number;
-  lot: number;
-  realProfit: number;
-  maxDrawdown: number;
-};
-
-export type Parameters = {
-  initialValue: number;
-  period: number;
-  riskReward: number;
-  riskRatio: number;
-  winRate: number;
-  simulate: boolean;
-};
+import { Row, Parameters } from "./types";
+import { defaultParameters } from "./constants";
 
 function generateRandomValue(): number {
   const array = new Uint32Array(1);
@@ -68,7 +50,7 @@ export function generateRows(config: Parameters): Row[] {
       : 1;
 
     const realProfit = sign > 0 ? profit : -maxDrawdown;
-    const lot = (equity * config.riskRatio) / 100 / 100;
+    const lot = (equity * config.riskRatio) / 100 / config.leverage;
 
     rows.push({
       index,
@@ -112,20 +94,12 @@ export function getLot(lot: number): { size: number; repeat: number } {
 
 export const getState = (): Parameters => {
   const currentState = localStorage.getItem("currentState") || "{}";
-  let state: Parameters | undefined;
+  let state = defaultParameters;
   try {
-    state = JSON.parse(currentState);
+    state = { ...state, ...JSON.parse(currentState) };
   } catch {}
 
-  return {
-    initialValue: 100,
-    period: 100,
-    riskReward: 3.0,
-    riskRatio: 1.0,
-    winRate: 60.0,
-    simulate: true,
-    ...state,
-  };
+  return state;
 };
 
 export const persistState = (state: Parameters): void => {

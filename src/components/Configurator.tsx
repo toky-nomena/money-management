@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, NumberInput } from "@mantine/core";
 
-import { Parameters } from "../utils";
+import { Parameters } from "../types";
 
 function Configurator({
   state,
@@ -54,11 +54,18 @@ function Configurator({
           onChange={(value) => setValue("winRate", value || 0)}
         />
       </Grid.Col>
-      <Grid.Col span={8}>
+      <Grid.Col span={4}>
         <NumberInput
           label="Period (Days)"
           value={state.period}
           onChange={(value) => setValue("period", value || 0)}
+        />
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <NumberInput
+          label="Leverage"
+          value={state.leverage}
+          onChange={(value) => setValue("leverage", value || 0)}
         />
       </Grid.Col>
     </Grid>

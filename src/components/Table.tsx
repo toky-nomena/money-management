@@ -3,22 +3,12 @@ import { Table as MantineTable } from "@mantine/core";
 
 import cs from "classnames";
 
-import { Row } from "../utils";
-
-const formatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
-
-const lotFormatter = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 2,
-  minimumFractionDigits: 2,
-});
-
-const compactLotFormatter = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 0,
-  minimumFractionDigits: 0,
-});
+import { Row } from "../types";
+import {
+  currencyFormatter,
+  decimalFormatter,
+  integerLotFormatter,
+} from "../formatters";
 
 export default function Table(props: { rows: Row[] }) {
   return (
@@ -53,10 +43,10 @@ function TableRow({ row }: { row: Row }) {
   return (
     <tr>
       <td>{row.index}</td>
-      <td>{formatter.format(row.equity)}</td>
-      <td className={classes}>{formatter.format(row.realProfit)}</td>
-      <td>{formatter.format(row.profit)}</td>
-      <td>-{formatter.format(row.maxDrawdown)}</td>
+      <td>{currencyFormatter.format(row.equity)}</td>
+      <td className={classes}>{currencyFormatter.format(row.realProfit)}</td>
+      <td>{currencyFormatter.format(row.profit)}</td>
+      <td>-{currencyFormatter.format(row.maxDrawdown)}</td>
       <td>
         <LotCell lot={row.lot} />
       </td>
@@ -85,17 +75,17 @@ function LotCell({ lot }: { lot: number }) {
     return (
       <>
         {lot % 1 != 0
-          ? lotFormatter.format(lot)
-          : compactLotFormatter.format(lot)}
+          ? decimalFormatter.format(lot)
+          : integerLotFormatter.format(lot)}
       </>
     );
   }
 
-  const remainder = compactLotFormatter.format(quotient);
+  const remainder = integerLotFormatter.format(quotient);
 
   return (
     <>
-      {maxLot} x {remainder} ({compactLotFormatter.format(lot)})
+      {maxLot} x {remainder} ({integerLotFormatter.format(lot)})
     </>
   );
 }
