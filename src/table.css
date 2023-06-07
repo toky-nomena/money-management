@@ -37,3 +37,10 @@ tr:nth-child(5n) td {
 .loss {
   color: rgb(255, 0, 0);
 }
+
+@media print {
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+}

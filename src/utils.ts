@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { Row, Parameters } from "./types";
+import type { Row, Parameters } from "./types";
 import { defaultParameters } from "./constants";
 
 function generateRandomValue(): number {
@@ -97,7 +97,9 @@ export const getState = (): Parameters => {
   let state = defaultParameters;
   try {
     state = { ...state, ...JSON.parse(currentState) };
-  } catch {}
+  } catch {
+    // No catch
+  }
 
   return state;
 };

@@ -4,15 +4,14 @@ import { MantineProvider } from "@mantine/core";
 import App from "./App";
 import "./table.css";
 
-const rootElement = document.getElementById("root")!;
-const root = createRoot(rootElement);
+const rootElement = document.getElementById("root");
 
-root.render(
-  <MantineProvider withGlobalStyles withNormalizeCSS>
-    <StrictMode>
-      <App />
-    </StrictMode>{" "}
-  </MantineProvider>
-);
-
-console.log("hello");
+if (rootElement) {
+  createRoot(rootElement).render(
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <StrictMode>
+        <App />
+      </StrictMode>{" "}
+    </MantineProvider>
+  );
+}

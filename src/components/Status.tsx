@@ -1,5 +1,5 @@
 import { decimalFormatter } from "../formatters";
-import { Row } from "../types";
+import type { Row } from "../types";
 
 function Status(props: { rows: Row[] }) {
   if (props.rows.length <= 1) {

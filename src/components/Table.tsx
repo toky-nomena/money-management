@@ -3,7 +3,7 @@ import { Table as MantineTable } from "@mantine/core";
 
 import cs from "classnames";
 
-import { Row } from "../types";
+import type { Row } from "../types";
 import {
   currencyFormatter,
   decimalFormatter,

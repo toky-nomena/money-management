@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Flex, Checkbox, Text } from "@mantine/core";
 
-import { generateRows, Parameters, getState, persistState } from "./utils";
+import { generateRows, getState, persistState } from "./utils";
+import type { Parameters } from "./types";
 import Configurator from "./components/Configurator";
 import Table from "./components/Table";
 import Status from "./components/Status";
@@ -15,13 +16,20 @@ export default function App() {
     getState()
   );
 
+  const setValue = React.useCallback(
+    <K extends keyof Parameters>(key: K, value: Parameters[K]) => {
+      setState({ ...state, [key]: value });
+    },
+    [setState, state]
+  );
+
   React.useEffect(() => persistState(state), [state]);
 
   const rows = generateRows(state);
 
   return (
     <React.Fragment>
-      <Configurator state={state} setState={setState} />
+      <Configurator state={state} setValue={setValue} />
       <Flex
         mih={50}
         gap="md"
@@ -31,6 +39,7 @@ export default function App() {
         wrap="wrap"
       >
         <Checkbox
+          className="no-print"
           checked={state.simulate}
           label={<Text fz="md">Randomize wins & losses</Text>}
           onChange={() => setState({ simulate: !state.simulate })}

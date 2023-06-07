@@ -1,24 +1,17 @@
 import * as React from "react";
 import { Grid, NumberInput } from "@mantine/core";
 
-import { Parameters } from "../types";
+import type { Parameters } from "../types";
 
 function Configurator({
   state,
-  setState,
+  setValue,
 }: {
   state: Parameters;
-  setState: React.Dispatch<Partial<Parameters>>;
+  setValue: <K extends keyof Parameters>(key: K, value: Parameters[K]) => void;
 }) {
-  const setValue = <K extends keyof Parameters>(
-    key: K,
-    value: Parameters[K]
-  ) => {
-    setState({ ...state, [key]: value });
-  };
-
   return (
-    <Grid grow gutter="xs">
+    <Grid grow gutter="xs" className="no-print">
       <Grid.Col span={4}>
         <NumberInput
           min={5}

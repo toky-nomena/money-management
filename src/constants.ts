@@ -1,4 +1,4 @@
-import { Parameters } from "./types";
+import type { Parameters } from "./types";
 
 export const defaultParameters: Parameters = {
   initialValue: 5,
