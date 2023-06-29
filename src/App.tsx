@@ -29,8 +29,6 @@ export default function App() {
 
   return (
     <React.Fragment>
-      {" "}
-      76uyhjjuhhhjHHJH
       <Configurator state={state} setValue={setValue} />
       <Flex
         mih={50}
