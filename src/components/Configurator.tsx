@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Grid, NumberInput } from "@mantine/core";
 
 import type { Parameters } from "../types";
