@@ -6,6 +6,7 @@ import type { Parameters } from "./types";
 import Configurator from "./components/Configurator";
 import Table from "./components/Table";
 import Status from "./components/Status";
+import { currencyFormatter } from "./formatters";
 
 export default function App() {
   const [state, setState] = React.useReducer(
@@ -24,6 +25,11 @@ export default function App() {
   );
 
   React.useEffect(() => persistState(state), [state]);
+  React.useEffect(() => {
+    document.title = `Money management ${currencyFormatter.format(
+      state.initialValue
+    )}`;
+  }, [state.initialValue]);
 
   const rows = generateRows(state);
 
@@ -44,7 +50,6 @@ export default function App() {
           label={<Text fz="md">Randomize wins & losses</Text>}
           onChange={() => setState({ simulate: !state.simulate })}
         />
-
         <Status rows={rows} />
       </Flex>
       <Table rows={rows} />
