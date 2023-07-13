@@ -6,7 +6,6 @@ import type { Parameters } from "./types";
 import Configurator from "./components/Configurator";
 import Table from "./components/Table";
 import Status from "./components/Status";
-import { currencyFormatter } from "./formatters";
 
 export default function App() {
   const [state, setState] = React.useReducer(
