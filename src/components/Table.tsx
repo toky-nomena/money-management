@@ -4,11 +4,8 @@ import { Table as MantineTable } from "@mantine/core";
 import cs from "classnames";
 
 import type { Row } from "../types";
-import {
-  currencyFormatter,
-  decimalFormatter,
-  integerLotFormatter,
-} from "../formatters";
+import { currencyFormatter } from "../formatters";
+import { Lot } from "./Lot";
 
 export default function Table(props: { rows: Row[] }) {
   return (
@@ -35,7 +32,7 @@ export default function Table(props: { rows: Row[] }) {
 }
 
 function TableRow({ row }: { row: Row }) {
-  const classes = cs({
+  const className = cs({
     loss: row.realProfit < 0,
     win: row.realProfit > 0,
   });
@@ -44,48 +41,12 @@ function TableRow({ row }: { row: Row }) {
     <tr>
       <td>{row.index}</td>
       <td>{currencyFormatter.format(row.equity)}</td>
-      <td className={classes}>{currencyFormatter.format(row.realProfit)}</td>
+      <td className={className}>{currencyFormatter.format(row.realProfit)}</td>
       <td>{currencyFormatter.format(row.profit)}</td>
       <td>-{currencyFormatter.format(row.maxDrawdown)}</td>
       <td>
-        <LotCell lot={row.lot} />
+        <Lot lot={row.lot} />
       </td>
     </tr>
-  );
-}
-
-function getMaxLot(lot: number): number {
-  if (lot <= 10) {
-    return lot;
-  }
-
-  if (lot < 1000) {
-    return Math.ceil(lot / 10);
-  }
-
-  return 100;
-}
-
-function LotCell({ lot }: { lot: number }) {
-  const maxLot = getMaxLot(lot);
-
-  const quotient = Math.floor(lot / maxLot);
-
-  if (maxLot < 10) {
-    return (
-      <>
-        {lot % 1 != 0
-          ? decimalFormatter.format(lot)
-          : integerLotFormatter.format(lot)}
-      </>
-    );
-  }
-
-  const remainder = integerLotFormatter.format(quotient);
-
-  return (
-    <>
-      {maxLot} x {remainder} ({integerLotFormatter.format(lot)})
-    </>
   );
 }

@@ -2,16 +2,13 @@ import { v4 } from "uuid";
 import type { Row, Parameters } from "./types";
 import { defaultParameters } from "./constants";
 
-function generateRandomValue(): number {
+function random(): number {
   const array = new Uint32Array(1);
   window.crypto.getRandomValues(array);
   return array[0] / (Math.pow(2, 32) - 1);
 }
 
-export function generateRandomNumber(
-  probabilities: number[],
-  numbers: number[]
-): number {
+export function pick(probabilities: number[], numbers: number[]): number {
   const cumulativeProbabilities: number[] = [];
   let cumulativeProbability = 0;
 
@@ -20,7 +17,7 @@ export function generateRandomNumber(
     cumulativeProbabilities.push(cumulativeProbability);
   }
 
-  const randomValue = generateRandomValue();
+  const randomValue = random();
 
   for (let i = 0; i < cumulativeProbabilities.length; i++) {
     if (randomValue <= cumulativeProbabilities[i]) {
@@ -32,25 +29,29 @@ export function generateRandomNumber(
   return numbers[numbers.length - 1];
 }
 
-export function generateRows(config: Parameters): Row[] {
+export function generateRows({
+  initialValue,
+  leverage,
+  period,
+  riskRatio,
+  riskReward,
+  simulate,
+  winRate,
+}: Parameters): Row[] {
   const rows = [];
-  let equity = config.initialValue;
+  let equity = initialValue;
   let week = 1;
 
-  for (let index = 1; index <= config.period; index++) {
-    const profit =
-      Math.floor(config.riskReward * config.riskRatio * equity) / 100;
-    const maxDrawdown = (config.riskRatio * equity) / 100;
+  for (let index = 1; index <= period; index++) {
+    const profit = Math.floor(riskReward * riskRatio * equity) / 100;
+    const maxDrawdown = (riskRatio * equity) / 100;
 
-    const sign = config.simulate
-      ? generateRandomNumber(
-          [config.winRate / 100.0, 1 - config.winRate / 100.0],
-          [1, -1]
-        )
+    const sign = simulate
+      ? pick([winRate / 100.0, 1 - winRate / 100.0], [1, -1])
       : 1;
 
     const realProfit = sign > 0 ? profit : -maxDrawdown;
-    const lot = (equity * config.riskRatio) / 100 / config.leverage;
+    const lot = (equity * riskRatio) / leverage / 100.0;
 
     rows.push({
       index,

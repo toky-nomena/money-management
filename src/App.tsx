@@ -26,12 +26,21 @@ export default function App() {
 
   React.useEffect(() => persistState(state), [state]);
   React.useEffect(() => {
-    document.title = `Money management ${currencyFormatter.format(
-      state.initialValue
-    )}`;
-  }, [state.initialValue]);
+    document.title =
+      "MM_" +
+      "" +
+      state.initialValue +
+      "_RK" +
+      state.riskRatio +
+      "_RR" +
+      state.riskReward +
+      "_P" +
+      state.period +
+      "_WR" +
+      state.winRate;
+  }, [state]);
 
-  const rows = generateRows(state);
+  const rows = React.useMemo(() => generateRows(state), [state]);
 
   return (
     <React.Fragment>
