@@ -17,7 +17,6 @@ export default function Table(props: { rows: Row[] }) {
           <th>Real Profit</th>
           <th>Expected Profit</th>
           <th>Drawdown Max</th>
-          <th>Lot</th>
         </tr>
       </thead>
       <tbody>
@@ -44,9 +43,6 @@ function TableRow({ row }: { row: Row }) {
       <td className={className}>{currencyFormatter.format(row.realProfit)}</td>
       <td>{currencyFormatter.format(row.profit)}</td>
       <td>-{currencyFormatter.format(row.maxDrawdown)}</td>
-      <td>
-        <Lot lot={row.lot} />
-      </td>
     </tr>
   );
 }
