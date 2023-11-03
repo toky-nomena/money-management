@@ -5,7 +5,6 @@ import cs from "classnames";
 
 import type { Row } from "../types";
 import { currencyFormatter } from "../formatters";
-import { Lot } from "./Lot";
 
 export default function Table(props: { rows: Row[] }) {
   return (
