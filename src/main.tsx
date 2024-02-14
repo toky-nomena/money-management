@@ -1,18 +1,18 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { MantineProvider } from "@mantine/core";
+import { MantineProvider } from '@mantine/core'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 
-import App from "./App";
-import "./table.css";
+import App from './App'
+import './table.css'
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root')
 
 if (rootElement) {
   createRoot(rootElement).render(
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <StrictMode>
         <App />
-      </StrictMode>{" "}
-    </MantineProvider>
-  );
+      </StrictMode>
+    </MantineProvider>,
+  )
 }

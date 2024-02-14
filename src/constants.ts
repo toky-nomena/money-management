@@ -1,4 +1,4 @@
-import type { Parameters } from "./types";
+import type { Parameters } from './types'
 
 export const defaultParameters: Parameters = {
   initialValue: 5,
@@ -7,5 +7,6 @@ export const defaultParameters: Parameters = {
   riskRatio: 6.0,
   winRate: 80.0,
   simulate: true,
-  leverage: 100,
-};
+  stopLoss: 100,
+  startDate: new Date(),
+}

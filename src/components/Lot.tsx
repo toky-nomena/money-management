@@ -1,21 +1,21 @@
-import { decimalFormatter, integerLotFormatter } from "../formatters";
+import { decimalFormatter, integerLotFormatter } from '../formatters'
 
 function getMaxLot(lot: number): number {
   if (lot <= 10) {
-    return lot;
+    return lot
   }
 
   if (lot < 1000) {
-    return Math.ceil(lot / 10);
+    return Math.ceil(lot / 10)
   }
 
-  return 100;
+  return 100
 }
 
 export function Lot({ lot }: { lot: number }) {
-  const maxLot = getMaxLot(lot);
+  const maxLot = getMaxLot(lot)
 
-  const quotient = Math.floor(lot / maxLot);
+  const quotient = Math.floor(lot / maxLot)
 
   if (maxLot < 10) {
     return (
@@ -24,14 +24,14 @@ export function Lot({ lot }: { lot: number }) {
           ? decimalFormatter.format(lot)
           : integerLotFormatter.format(lot)}
       </>
-    );
+    )
   }
 
-  const remainder = integerLotFormatter.format(quotient);
+  const remainder = integerLotFormatter.format(quotient)
 
   return (
     <>
       {maxLot} x {remainder} ({integerLotFormatter.format(lot)})
     </>
-  );
+  )
 }

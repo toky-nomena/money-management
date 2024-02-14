@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Table as MantineTable } from "@mantine/core";
+import { Table as MantineTable } from '@mantine/core'
+import * as React from 'react'
 
-import cs from "classnames";
+import cs from 'classnames'
 
-import type { Row } from "../types";
-import { currencyFormatter } from "../formatters";
+import { currencyFormatter } from '../formatters'
+import type { Row } from '../types'
 
 export default function Table(props: { rows: Row[] }) {
   return (
@@ -26,14 +26,14 @@ export default function Table(props: { rows: Row[] }) {
         </React.Fragment>
       </tbody>
     </MantineTable>
-  );
+  )
 }
 
 function TableRow({ row }: { row: Row }) {
   const className = cs({
     loss: row.realProfit < 0,
     win: row.realProfit > 0,
-  });
+  })
 
   return (
     <tr>
@@ -43,5 +43,5 @@ function TableRow({ row }: { row: Row }) {
       <td>{currencyFormatter.format(row.profit)}</td>
       <td>-{currencyFormatter.format(row.maxDrawdown)}</td>
     </tr>
-  );
+  )
 }
